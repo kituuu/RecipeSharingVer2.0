@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function postLike(
-  postId: string,
+  postId: string | number,
   data: string,
   token: string | null
 ) {

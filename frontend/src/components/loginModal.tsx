@@ -1,14 +1,12 @@
 "use client";
 
-// import SignupForm from '@/components/signupForm';
-import styled, { css } from "styled-components";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
 import { postLogin } from "@/api/postLogin";
 import { postSignup } from "@/api/postSignup";
 import Link from "next/link";
+import Cookies from "js-cookie";
 const LoginModal = () => {
   const [modalShown, setModalShown] = React.useState("login");
   const [isOpen, setOpen] = React.useState(false);
@@ -33,7 +31,7 @@ const LoginModal = () => {
           event.target.username.value,
           event.target.password.value
         );
-        sessionStorage.setItem("auth-token", token);
+        Cookies.set("auth-token", token);
         handleCloseClick();
         toast.success("emu auth");
         router.push("/user");
@@ -121,7 +119,8 @@ const LoginModal = () => {
 
   return (
     <div className="container">
-     3 <Link href="#" onClick={() => setOpen(!isOpen)}>
+      3{" "}
+      <Link href="#" onClick={() => setOpen(!isOpen)}>
         SIGN UP
       </Link>
       {isOpen && (

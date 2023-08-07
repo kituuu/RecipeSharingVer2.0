@@ -30,11 +30,10 @@ const Postcards = ({
       <h1 className="font-bold text-2xl p-1 m-1 text-center uppercase">
         {dishName}
       </h1>
-      <Image
+      <Image width={400} height={400}
         src={`${pic}`}
         alt={dishName}
-        width={400}
-        height={400}
+
         style={{ objectFit: "cover", borderRadius: "30px", minHeight: "400px" }}
       />
 

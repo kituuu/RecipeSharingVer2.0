@@ -1,6 +1,6 @@
 "use client";
-import Navbar from "@/components/Navbar";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useState, useEffect, ChangeEvent } from "react";
@@ -11,8 +11,7 @@ const EditProfilePage = () => {
   const [photo, setPhoto] = useState<File | null>(null);
   const previousProfile = async () => {
     // let profile:profileI;
-
-    let authtoken = sessionStorage.getItem("auth-token");
+    let authtoken = Cookies.get("auth-token");
     let response1 = await axios.get(`http://127.0.0.1:8000/auth/test_token`, {
       headers: {
         accept: "application/json",
@@ -31,63 +30,57 @@ const EditProfilePage = () => {
       }
     );
     let data2 = await response2.data;
-    console.log("data2");
-    console.log(data2);
     setName(data2.user_profile.name);
     setEmail(data2.user_profile.emailId);
     setBio(data2.user_profile.bio);
-    console.log(data2.user_profile);
   };
   useEffect(() => {
     previousProfile();
   }, []);
   const router = useRouter();
   const onClickSubmit = async () => {
-    
-      // console.log("cloudinary");
-      // const response_cloud = await axios.post(
-      //   `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/upload`,
-      //   {
-      //     file: photo,
-      //     upload_preset: "nextjs_upload_preset",
-      //   },
+    // console.log("cloudinary");
+    // const response_cloud = await axios.post(
+    //   `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/upload`,
+    //   {
+    //     file: photo,
+    //     upload_preset: "nextjs_upload_preset",
+    //   },
 
-      //   {
-      //     headers: { "X-Requested-With": "XMLHttpRequest" },
-      //   }
-      // );
-      // console.log(response_cloud);
-      // // Handle the response from Cloudinary
-      // console.log(response_cloud.data);
+    //   {
+    //     headers: { "X-Requested-With": "XMLHttpRequest" },
+    //   }
+    // );
+    // console.log(response_cloud);
+    // // Handle the response from Cloudinary
+    // console.log(response_cloud.data);
 
-      // const dishPhoto = response_cloud.data.secure_url;
-      try {
-        let data = {
-          name: name,
-          profilePhoto: photo,
-          bio: bio,
-          emailId: email,
-        };
-        let body = JSON.stringify(data);
-        let authtoken = sessionStorage.getItem("auth-token");
-        let response1 = await axios.put(
-          `http://localhost:8000/userProfile/updateProfile`,
-          {
-            method: "PUT", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors",
-            headers: {
-              accept: "application/json",
-              Authorization: `Token ${authtoken}`,
-            },
-            body: body,
-          }
-        );
-        console.log(response1)
-        let data1 = await response1.data;
-        console.log(data1);
-      } catch (e) {
-        console.log(e);
-      }
+    // const dishPhoto = response_cloud.data.secure_url;
+    try {
+      let data = {
+        name: name,
+        profilePhoto: photo,
+        bio: bio,
+        emailId: email,
+      };
+      let body = JSON.stringify(data);
+      let authtoken = Cookies.get("auth-token");
+      let response1 = await axios.put(
+        `http://localhost:8000/userProfile/updateProfile`,
+        {
+          method: "PUT", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors",
+          headers: {
+            accept: "application/json",
+            Authorization: `Token ${authtoken}`,
+          },
+          body: body,
+        }
+      );
+      let data1 = await response1.data;
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {

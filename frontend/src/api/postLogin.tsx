@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export async function postLogin (username : string, password:string) {
     try {
         const response = await axios.post('http://localhost:8000/auth/login' , {

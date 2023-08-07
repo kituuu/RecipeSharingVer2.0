@@ -1,11 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import Postcards from "@/components/Postcards";
 import { useRouter } from "next/navigation";
 import getLoginStatus from "@/utilites/getLoginStatus";
 import axios from "axios";
+import Cookies from "js-cookie";
 interface postCards {
   id: string;
   dishName: string;
@@ -44,7 +43,7 @@ const PostsPage = () => {
   const getProfile = async () => {
     let authtoken;
     try {
-      authtoken = sessionStorage.getItem("auth-token");
+      authtoken = Cookies.get("auth-token");
     } catch (err) {
       console.log(err);
     }
@@ -56,7 +55,6 @@ const PostsPage = () => {
       },
     });
     let data1 = await response1.data;
-    // console.log(data1[0])
     let response2 = await axios(
       `http://127.0.0.1:8000/userProfile/getProfile/${data1[0]}`,
       {
@@ -69,10 +67,7 @@ const PostsPage = () => {
       }
     );
     let data2 = await response2.data;
-    console.log(data2.user_profile);
     setProfile(data2.user_profile);
-    //   profile=data2.user_profile
-    // console.log(profile)
     let response3 = await axios(
       `http://127.0.0.1:8000/post/getUserLikedPost/${data1[0]}`,
       {
@@ -85,7 +80,6 @@ const PostsPage = () => {
       }
     );
     let data3 = await response3.data;
-    console.log(data3);
     setPosts(data3.message);
   };
   useEffect(() => {
@@ -100,7 +94,6 @@ const PostsPage = () => {
       <div className="grid grid-cols-3 gap-4 p-2 ">
         {posts.map((Element: postCards) => {
           console.log(Element, "hello world");
-          // return<h1>hello</h1>
           return (
             <Postcards
 

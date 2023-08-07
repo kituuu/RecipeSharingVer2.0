@@ -1,9 +1,8 @@
 "use-client"
 import React from "react";
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { postSignup } from "@/api/postSignup";
-// import LoginModal from "@/components/loginModal"
+import Cookies from "js-cookie";
 
 const SignupForm = () => {
     
@@ -16,7 +15,7 @@ const SignupForm = () => {
     const signup = async () => {
         try {
             const token = await postSignup(username,password)
-            sessionStorage.setItem('auth-token' ,token)
+            Cookies.set('auth-token' ,token)
             router.push('/createProfile')
             } catch (error) {
             console.error(error);

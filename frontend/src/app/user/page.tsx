@@ -1,14 +1,11 @@
 "use client";
 import { useState, useEffect, ChangeEvent } from "react";
-import { Interface } from "readline";
-import Image from "next/image";
 import Link from "next/link";
 import Postcards from "@/components/Postcards";
 import { useRouter } from "next/navigation";
-import defaultPFP from "../../../public/default_pfp.svg";
 import axios from "axios";
 import getLoginStatus from "@/utilites/getLoginStatus";
-import Navbar from "@/components/Navbar";
+import Cookies from "js-cookie";
 interface postCards {
   dishName: string;
   dishId: string;
@@ -25,15 +22,12 @@ interface profileI {
   profilePhoto: string;
 }
 const ProfilePage = () => {
-  // 'use server'
-
   const router = useRouter();
 
   const checkLogin = async () => {
     const response = await getLoginStatus();
     if (!response) {
       router.push("/home");
-      // router.push('/home',{shallow : "false"})
     }
   };
 
@@ -53,25 +47,19 @@ const ProfilePage = () => {
   const [profilePhoto, setProfilePhoto] = useState<File | null>();
 
   const getProfile = async () => {
-    console.log("1");
     let authtoken;
     try {
-      authtoken = sessionStorage.getItem("auth-token");
+      authtoken = Cookies.get("auth-token");
     } catch (err) {
       console.log(err);
     }
-    console.log(authtoken);
     let response1 = await axios.get(`http://127.0.0.1:8000/auth/test_token`, {
-      // mode: "no-cors",
       headers: {
         accept: "application/json",
         Authorization: `Token ${authtoken}`,
       },
     });
-    console.log("response 1 " + authtoken);
-    console.log("response 1 ", response1.data);
     let data1 = await response1.data;
-    // console.log(data1[0])
     let response2 = await axios.get(
       `http://127.0.0.1:8000/userProfile/getProfile/${data1[0]}`,
       {
@@ -82,14 +70,6 @@ const ProfilePage = () => {
       }
     );
     let data2 = await response2.data;
-    // console.log(data2.user_profile)
-    // profile=data2.user_profile
-    // console.log(profile.userId)
-    setProfile(data2.user_profile);
-    console.log(data2.user_profile);
-
-    console.log("response 2 " + authtoken);
-    console.log("response 2 ", data2.user_profile);
     if (data2.user_profile.profilePhoto) {
       setProfilePhotoExists(true);
     }
@@ -115,7 +95,7 @@ const ProfilePage = () => {
 
   const uploadProfilePhoto = async () => {
     try {
-      const token = sessionStorage.getItem("auth-token");
+      const token = Cookies.get("auth-token");
       const data = {
         profilePhoto,
       };
@@ -140,11 +120,16 @@ const ProfilePage = () => {
       <div className="bg-sky-950 w-6/7 m-auto h-1/2 rounded-lg flex flex-row">
         <div className="w-1/4 h-5/6 grid place-items-center p-5">
           {profilePhotoExists ? (
-            <img
+            <div>
+              <img
+              width={400}
+              height={400}
               src="https://res.cloudinary.com/dkjuwu1ia/image/upload/v1689434856/blank-profile-picture_egsloo.png"
               alt="profilePhoto"
               className="object-cover rounded-lg border-white border-solid border-2 mx-auto p-2 my-2"
             />
+            </div>
+            
           ) : (
             <div>
               {/* // put  image svg here showing blank profile photo and an edit button to add the profile photo  */}
@@ -192,8 +177,8 @@ const ProfilePage = () => {
         </div>
       </div>
       <Link
-        className="text-black bg-blue-500 hower:bg-slate-500 p-2 rounded-full m-2" 
-         href={"/editProfile"}
+        className="text-black bg-blue-500 hower:bg-slate-500 p-2 rounded-full m-2"
+        href={"/editProfile"}
       >
         Edit Profile
       </Link>

@@ -1,6 +1,7 @@
 "use client";
 import { postLike } from "@/api/postLike";
 import axios from "axios";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -12,10 +13,10 @@ const AddToCookBook = () => {
   //   const token =  '8aa2bb9efacee868d83ac03960e12f164d300e51'
   const like = async () => {
     try {
-      const token = sessionStorage.getItem("auth-token");
-      const data = "";
+      const token = Cookies.get("auth-token");
+      // const data = "";
 
-      const response = postLike(postId, data, token);
+      // const response = postLike(postId, data, token);
     } catch (error) {
       console.log(error);
     }

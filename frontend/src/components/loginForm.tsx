@@ -1,9 +1,10 @@
 "use-client";
 import React from "react";
-import axios from "axios";
 import { postLogin } from "@/api/postLogin";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from 'react-hot-toast';
+import Cookies from 'js-cookie';
+
 
 const LoginForm = () => {
   // const router = useRouter ();
@@ -15,19 +16,20 @@ const LoginForm = () => {
   const login = async () => {
     try {
       const token = await postLogin(username,password)
-      sessionStorage.setItem('auth-token' ,token)
-      router.refresh()
+      Cookies.set('auth-token', token);
       toast.success("emu auth")
       router.push('/user')
+      router.refresh();
        
             //code to update the login button and close the modal
 
     } catch (error) {
       console.error(error);
       toast.error("Login failed");
-      router.refresh()
 
       router.push("/")
+      router.refresh();
+
     }
   };
 

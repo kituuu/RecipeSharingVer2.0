@@ -3,31 +3,28 @@ import React, { ChangeEvent } from "react";
 import axios from "axios";
 import getLoginStatus from "@/utilites/getLoginStatus";
 import { useRouter } from "next/navigation";
-import { Cloudinary } from "cloudinary-core";
-import { env } from "process";
+import Cookies from "js-cookie";
 const NewPostPage = () => {
   const router = useRouter();
 
   const checkLogin = async () => {
     const response = await getLoginStatus();
     if (!response) {
-
       router.push("/home");
     }
   };
 
   checkLogin(); //checks if user is logged in
 
-  const [dishName, setDishName]:[string,Function] = React.useState("");
+  const [dishName, setDishName]: [string, Function] = React.useState("");
   const [dishBio, setDishBio]: [string, Function] = React.useState("");
   const [dishCuisine, setDishCuisine]: [string, Function] = React.useState("");
-  const [dishTime, setDishTime]:[string,Function] = React.useState("");
+  const [dishTime, setDishTime]: [string, Function] = React.useState("");
   const [dishPic, setDishPic] = React.useState<File | string>(" "); //this is used to upload the pic to cloudinary
 
   const upload = async () => {
     try {
-      const token = sessionStorage.getItem("auth-token");
-
+      const token = Cookies.get("auth-token");
       const formData = new FormData();
       formData.append("file", dishPic);
       formData.append("upload_preset", "nextjs_upload_preset");
@@ -41,8 +38,6 @@ const NewPostPage = () => {
         }
       );
 
-      // Handle the response from Cloudinary
-      console.log(response_cloud.data);
 
       const dishPhoto = response_cloud.data.secure_url;
 
@@ -66,7 +61,6 @@ const NewPostPage = () => {
           },
         }
       );
-      // console.log(response.data)
       router.push("/home");
     } catch (error) {
       console.log(error);
@@ -127,7 +121,7 @@ const NewPostPage = () => {
           placeholder="Upload image of your dish"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setDishPic(e.target.files? e.target.files[0] : " ");
+            setDishPic(e.target.files ? e.target.files[0] : " ");
           }}
           required
         />

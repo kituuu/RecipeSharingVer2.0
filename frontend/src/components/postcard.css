@@ -2,6 +2,8 @@
 #postcard {
   border-radius: 20px;
   justify-content: space-between;
+  width: 100%;
+  min-width: 4000px;
 }
 
 #postcard:hover {

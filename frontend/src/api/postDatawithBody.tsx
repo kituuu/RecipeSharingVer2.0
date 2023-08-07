@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function postData(
   url: string,
-  token: string | null,
+  token: string | undefined,
   body: string
 ) {
   try {

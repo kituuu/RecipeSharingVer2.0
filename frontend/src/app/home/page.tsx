@@ -3,10 +3,8 @@ import Image from "next/image";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Postcards from "@/components/Postcards";
-import cookPhoto from "../../../public/cook.svg";
-import foodPhoto1 from "../../../public/header_food_frame.svg";
 import { BsSearch } from "react-icons/bs";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { dish } from "@/utilites/interface";
 import axios from "axios";
 import Link from "next/link";
@@ -55,7 +53,6 @@ const HomePage = () => {
         "http://127.0.0.1:8000/post/getAllPost"
       );
       const posts: dish[] = await response.data.message;
-      console.log(`posts response are ${response}`, posts);
       setPosts(posts);
     } catch (error) {
       console.log(error);
@@ -87,11 +84,25 @@ const HomePage = () => {
               </button>
             </div>
             <div className="flex-row flex pt-5">
-              <Image src={foodPhoto1} alt="" />
+              <Image
+                width={400}
+                height={400}
+                src={
+                  "https://clipart-library.com/images_k/cooking-transparent-background/cooking-transparent-background-25.jpg"
+                }
+                alt=""
+              />
             </div>
           </div>
           <div className="col-span-1">
-            <Image src={cookPhoto} alt="cook photo" width={500} height={400} />
+            <Image
+              src={
+                "https://clipart-library.com/images_k/cooking-transparent-background/cooking-transparent-background-25.jpg"
+              }
+              alt="cook photo"
+              width={500}
+              height={400}
+            />
           </div>
         </div>
       </div>

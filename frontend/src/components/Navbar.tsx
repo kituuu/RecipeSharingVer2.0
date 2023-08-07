@@ -2,20 +2,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import logo from "../../public/logo.svg";
 import Link from "next/link";
-// Token 8aa2bb9efacee868d83ac03960e12f164d300e51
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import LoginModal from "./loginModal";
-import LoginForm from "./loginForm";
 import getLoginStatus from "@/utilites/getLoginStatus";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [loginStatus, setLoginStatus] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const router = useRouter();
-  const currentRoute = usePathname();
 
   const LoginStatus = async () => {
     const response = await getLoginStatus();
@@ -42,7 +38,7 @@ const Navbar = () => {
     <>
       <nav className="bg-gradient-to-r from-pink-200 to-white w-100 px-8 md:px-auto">
         <div className="md:h-16 h-28 mx-auto md:px-4 container flex items-center justify-between flex-wrap md:flex-nowrap">
-          <Image src={logo} alt="logo" height={60} />
+          {/* <Image width={80} src={logo} alt="logo" height={60} /> */}
           <div className="text-gray-500 order-3 w-full md:w-auto md:order-2">
             {loginStatus ? (
               <ul className="flex font-semibold justify-between">
@@ -90,7 +86,7 @@ const Navbar = () => {
                   href={"/"}
                   onClick={() => {
                     try {
-                      sessionStorage.removeItem("auth-token");
+                      Cookies.remove("auth-token");
                       LoginStatus();
                       router.push("/");
                     } catch (e) {

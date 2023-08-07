@@ -4,7 +4,6 @@ import getLoginStatus from "@/utilites/getLoginStatus";
 import React from "react";
 import { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar";
 const CreateProfilePage = () => {
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();

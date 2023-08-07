@@ -1,12 +1,10 @@
 "use client";
 import Image from "next/image";
-// import "./style.css";
-import { useParams, usePathname, useRouter } from "next/navigation";
 import AddToCookBook from "@/components/addToCookbook";
 import { getPostWithId } from "@/api/fetchPostWithId";
 import { useEffect, useState } from "react";
 
-import {dish} from '@/utilites/interface'
+import { dish } from "@/utilites/interface";
 
 const PostPage = ({
   params,
@@ -15,16 +13,16 @@ const PostPage = ({
 }) => {
   // console.log("hello params print kar raha hu");
   // console.log(params);
-  const [data, setData]:[dish,Function] = useState({
-  dishName: 'Dish Not Found',
-  dishId: '',
-  dishBio: 'Simple Samosa are the best',
-  dishTime: -1,
-  dishPhoto: '',
-  userId: '',
-  dishCuisine:'',
-  createdAt: '',
-});
+  const [data, setData]: [dish, Function] = useState({
+    dishName: "Dish Not Found",
+    dishId: "",
+    dishBio: "Simple Samosa are the best",
+    dishTime: -1,
+    dishPhoto: "",
+    userId: "",
+    dishCuisine: "",
+    createdAt: "",
+  });
   // console.log("hello");
   useEffect(() => {
     getPost();
@@ -53,13 +51,13 @@ const PostPage = ({
       <div className="header text-white bg-slate-800 rounded-2xl h-1/2 p-20">
         <div className=" grid grid-cols-4">
           <div className="col-span-1">
-            <div className="img-circle w-64 h-64 rounded-full border-4 border-red-800 overflow-hidden ">
-              <Image
+            <div className="Image-circle w-64 h-64 rounded-full border-4 border-red-800 overflow-hidden ">
+              <Image 
                 src={data ? data.dishPhoto : ""}
                 alt=""
                 width={256}
                 height={256}
-                id="img"
+                id="Image"
                 className="w-full h-full object-cover"
               />
             </div>

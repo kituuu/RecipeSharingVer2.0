@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Moul&display=swap");
+#postcard {
+  border-radius: 20px;
+  justify-content: space-between;
+}
+
+#postcard:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#postcard h1 {
+  font-family: "Moul";
+  font-size: 1.75rem;
+  font-weight: 100;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+  white-space: nowrap;
+  color: white;
+}
+
+#postcard p {
+  font-size: 1.25rem;
+  font-weight: 300;
+  overflow: hidden;
+  color: #c5e8ff;
+}
+
+#postcard Link {
+  color: #b0dfff;
+}
